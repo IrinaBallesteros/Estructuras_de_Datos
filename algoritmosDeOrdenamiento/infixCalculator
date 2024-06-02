@@ -1,0 +1,48 @@
+// Programa para calcular expresiones aritméticas en notación infija
+import java.util.Stack;
+
+public class InfixCalculator {
+
+    public static int calculate(String expression) {
+        Stack<Integer> stack = new Stack<>();
+
+        for (char character : expression.toCharArray()) {
+            if (Character.isDigit(character)) {
+                int operand = Character.getNumericValue(character);
+                stack.push(operand);
+            } else if (isOperator(character)) {
+                int operand2 = stack.pop();
+                int operand1 = stack.pop();
+                int result = applyOperation(character, operand1, operand2);
+                stack.push(result);
+            }
+        }
+
+        return stack.pop(); // Final result
+    }
+
+    private static boolean isOperator(char character) {
+        return character == '+' || character == '-' || character == '*' || character == '/';
+    }
+
+    private static int applyOperation(char operator, int operand1, int operand2) {
+        switch (operator) {
+            case '+':
+                return operand1 + operand2;
+            case '-':
+                return operand1 - operand2;
+            case '*':
+                return operand1 * operand2;
+            case '/':
+                return operand1 / operand2;
+            default:
+                throw new IllegalArgumentException("Invalid operator: " + operator);
+        }
+    }
+
+    public static void main(String[] args) {
+        String expression = "2 + 3 * 4 / 2"; // Example expression
+        int result = calculate(expression);
+        System.out.println("Resultado: " + result); // Output: Resultado: 7
+    }
+}

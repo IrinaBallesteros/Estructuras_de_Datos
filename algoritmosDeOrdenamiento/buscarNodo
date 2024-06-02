@@ -1,0 +1,12 @@
+// Buscar un nodo en una lista enlazada
+public static Node<Integer> buscarNodo(Node<Integer> head, int x) {
+    if (head == null) { // Caso base: Lista vacía
+        return null;
+    }
+
+    if (head.data == x) { // Si el dato actual coincide con x, retornar el nodo
+        return head;
+    }
+
+    return buscarNodo(head.next, x); // Buscar recursivamente en el siguiente nodo
+}

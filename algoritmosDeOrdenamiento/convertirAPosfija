@@ -1,0 +1,54 @@
+// Código de la clase InfijaAPostfija
+import java.util.Stack;
+
+public class InfijaAPostfija {
+
+    public static String convertirAPostfija(String expresionInfija) {
+        Stack<Character> pilaOperadores = new Stack<>();
+        StringBuilder expresionPostfija = new StringBuilder();
+
+        for (char caracter : expresionInfija.toCharArray()) {
+            if (esOperador(caracter)) {
+                while (!pilaOperadores.isEmpty() && precedencia(pilaOperadores.peek()) >= precedencia(caracter)) {
+                    expresionPostfija.append(pilaOperadores.pop());
+                }
+                pilaOperadores.push(caracter);
+            } else {
+                expresionPostfija.append(caracter);
+            }
+        }
+
+        while (!pilaOperadores.isEmpty()) {
+            expresionPostfija.append(pilaOperadores.pop());
+        }
+
+        return expresionPostfija.toString();
+    }
+
+    private static boolean esOperador(char caracter) {
+        return caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/' || caracter == '^';
+    }
+
+    private static int precedencia(char operador) {
+        switch (operador) {
+            case '^':
+                return 4;
+            case '*':
+            case '/':
+                return 3;
+            case '+':
+            case '-':
+                return 2;
+            default:
+                return 1; // Prioridad para operandos
+        }
+    }
+
+    public static void main(String[] args) {
+        String expresionInfija = "A + B * C / D";
+        String expresionPostfija = convertirAPostfija(expresionInfija);
+        System.out.println("Expresión infija: " + expresionInfija);
+        System.out.println("Expresión postfija: " + expresionPostfija);
+    }
+}
+

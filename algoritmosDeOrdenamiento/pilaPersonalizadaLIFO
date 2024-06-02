@@ -1,0 +1,49 @@
+// Programa que implementa una pila personalizada (stack) en Java
+import java.util.ArrayList;
+
+class CustomStack<T> {
+
+  private ArrayList<T> stack;
+
+  public CustomStack() {
+    stack = new ArrayList<>();
+  }
+
+  public void push(T element) {
+    stack.add(element); // Add element to the top of the stack (LIFO)
+  }
+
+  public T pop() {
+    if (isEmpty()) {
+      throw new NoSuchElementException("Stack is empty");
+    }
+    return stack.remove(stack.size() - 1); // Remove element from the end (LIFO)
+  }
+
+  public int size() {
+    return stack.size();
+  }
+
+  public boolean isEmpty() {
+    return stack.isEmpty();
+  }
+}
+
+public class Main {
+
+  public static void main(String[] args) {
+    CustomStack<Integer> customStack = new CustomStack<>();
+
+    customStack.push(1);
+    customStack.push(2);
+    customStack.push(3);
+
+    System.out.println("Size of stack: " + customStack.size());
+    System.out.println("Popped element: " + customStack.pop());
+    System.out.println("Size of stack after pop: " + customStack.size());
+
+    while (!customStack.isEmpty()) {
+      System.out.println("Popped element: " + customStack.pop());
+    }
+  }
+}

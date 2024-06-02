@@ -1,0 +1,9 @@
+// Suma recursiva de los elementos de un arreglo
+public static int sumaRecursiva(int[] lista, int indice) {
+    if (indice == 0) { // Caso base: Si el índice llega a 0, se devuelve el primer elemento
+        return lista[0];
+    } else {
+        // Caso recursivo: Sumar el elemento actual y el resultado de la recursión para el resto de la lista
+        return lista[indice] + sumaRecursiva(lista, indice - 1);
+    }
+}

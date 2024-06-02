@@ -1,0 +1,89 @@
+// Programa para multiplicar dos listas circulares doblemente enlazadas
+public static Node<Integer> multiplicarListasCirculares(Node<Integer> lista1, Node<Integer> lista2) {
+    // Validar que ambas listas no sean nulas
+    if (lista1 == null || lista2 == null) {
+        throw new IllegalArgumentException("Las listas no pueden ser nulas");
+    }
+
+    // Obtener el número entero representado por cada lista
+    int numero1 = obtenerNumeroDeLista(lista1);
+    int numero2 = obtenerNumeroDeLista(lista2);
+
+    // Multiplicar los números enteros
+    int producto = numero1 * numero2;
+
+    // Convertir el producto a una nueva lista circular doblemente enlazada
+    return crearListaCircularDoblementeEnlazada(producto);
+}
+
+// Función auxiliar para obtener el número entero representado por una lista circular doblemente enlazada
+private static int obtenerNumeroDeLista(Node<Integer> lista) {
+    if (lista == null) {
+        return 0;
+    }
+
+    // Obtener el primer dígito del número
+    int primerDigito = lista.data;
+
+    // Recorrer la lista circularmente y sumar los dígitos al número
+    Node<Integer> actual = lista;
+    int numero = primerDigito;
+    int potencia = 1;
+
+    do {
+        actual = actual.next;
+        if (actual == lista) { // Caso base: se ha completado la vuelta a la lista
+            break;
+        }
+
+        int digitoActual = actual.data;
+        numero += digitoActual * potencia;
+        potencia *= 10;
+    } while (true);
+
+    return numero;
+}
+
+// Función auxiliar para crear una lista circular doblemente enlazada a partir de un número entero
+private static Node<Integer> crearListaCircularDoblementeEnlazada(int numero) {
+    if (numero == 0) {
+        return new Node<>(0); // Caso base: número 0
+    }
+
+    // Separar el número en dígitos
+    int[] digitos = new int[obtenerCantidadDigitos(numero)];
+    int divisor = 1;
+    for (int i = digitos.length - 1; i >= 0; i--) {
+        digitos[i] = (numero / divisor) % 10;
+        divisor *= 10;
+    }
+
+    // Crear la lista circular doblemente enlazada
+    Node<Integer> head = null;
+    for (int digito : digitos) {
+        Node<Integer> nuevoNodo = new Node<>(digito);
+        if (head == null) {
+            head = nuevoNodo;
+            nuevoNodo.next = nuevoNodo;
+            nuevoNodo.prev = nuevoNodo;
+        } else {
+            nuevoNodo.next = head;
+            nuevoNodo.prev = head.prev;
+            head.prev = nuevoNodo;
+            nuevoNodo.prev.next = nuevoNodo;
+            head = nuevoNodo;
+        }
+    }
+
+    return head;
+}
+
+// Función auxiliar para obtener la cantidad de dígitos de un número entero
+private static int obtenerCantidadDigitos(int numero) {
+    int cantidadDigitos = 0;
+    while (numero > 0) {
+        numero /= 10;
+        cantidadDigitos++;
+    }
+    return cantidadDigitos;
+}

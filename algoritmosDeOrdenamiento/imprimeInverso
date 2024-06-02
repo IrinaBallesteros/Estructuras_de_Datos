@@ -1,0 +1,10 @@
+// Método auxiliar para imprimir los elementos de una lista enlazada de forma inversa
+public static void imprimeInverso(Node<Integer> head, int p) {
+    if (head == null || p < 0) { // Caso base: Lista vacía o posición inválida
+        return;
+    }
+
+    imprimeInverso(head.next, p - 1); // Imprimir elementos recursivamente desde la siguiente posición
+
+    System.out.print(head.data + " "); // Imprimir el elemento actual en orden inverso
+}
